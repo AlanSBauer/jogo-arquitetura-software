@@ -1,0 +1,15 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    allowedHosts: true,
+    host: true,
+  },
+  build: {
+    // Phaser fica em um chunk sob demanda; o menu inicial continua leve.
+    chunkSizeWarningLimit: 1700,
+  },
+})

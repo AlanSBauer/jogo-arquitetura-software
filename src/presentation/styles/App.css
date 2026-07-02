@@ -1,0 +1,1711 @@
+.game-shell {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #020306;
+}
+
+.phaser-fullscreen {
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.multiplayer-chat {
+  position: fixed;
+  z-index: 60000;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(420px, calc(100vw - 32px));
+  height: min(520px, calc(100dvh - 70px));
+  overflow: hidden;
+  border: 1px solid rgba(248, 113, 113, 0.7);
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(48, 7, 14, 0.92);
+  box-shadow:
+    0 22px 64px rgba(0, 0, 0, 0.62),
+    inset 0 0 0 1px rgba(254, 202, 202, 0.08);
+  backdrop-filter: blur(5px);
+  transform: translate(-50%, -50%);
+}
+
+.multiplayer-chat > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(248, 113, 113, 0.26);
+  padding: 13px 14px;
+  background: rgba(69, 10, 10, 0.76);
+}
+
+.multiplayer-chat > header div {
+  display: grid;
+  gap: 4px;
+}
+
+.multiplayer-chat > header span {
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fecaca;
+}
+
+.multiplayer-chat > header strong {
+  font: 900 15px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.multiplayer-chat > header button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(254, 202, 202, 0.5);
+  border-radius: 6px;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1;
+  color: #ffffff;
+  background: rgba(127, 29, 29, 0.72);
+  cursor: pointer;
+}
+
+.multiplayer-chat__messages {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  overflow-y: auto;
+  padding: 12px;
+  scrollbar-color: #9f2736 rgba(15, 8, 12, 0.72);
+  scrollbar-width: thin;
+}
+
+.multiplayer-chat__messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.multiplayer-chat__messages::-webkit-scrollbar-track {
+  background: rgba(15, 8, 12, 0.72);
+}
+
+.multiplayer-chat__messages::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(15, 8, 12, 0.72);
+  border-radius: 8px;
+  background: #9f2736;
+}
+
+.multiplayer-chat__empty {
+  margin: auto;
+  padding: 24px 10px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.multiplayer-chat__message {
+  max-width: 88%;
+  border: 1px solid rgba(254, 202, 202, 0.18);
+  border-radius: 7px;
+  padding: 9px 10px;
+  color: #ffffff;
+  background: rgba(15, 8, 12, 0.72);
+}
+
+.multiplayer-chat__message--own {
+  justify-self: end;
+  border-color: rgba(248, 113, 113, 0.38);
+  background: rgba(127, 29, 29, 0.62);
+}
+
+.multiplayer-chat__message strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: #ffffff;
+}
+
+.multiplayer-chat__message p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #ffffff;
+}
+
+.multiplayer-chat > form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  border-top: 1px solid rgba(248, 113, 113, 0.24);
+  padding: 11px;
+  background: rgba(30, 5, 10, 0.82);
+}
+
+.multiplayer-chat > form input {
+  min-width: 0;
+  height: 40px;
+  border: 1px solid rgba(254, 202, 202, 0.3);
+  border-radius: 7px;
+  padding: 0 11px;
+  color: #ffffff;
+  background: rgba(2, 6, 23, 0.78);
+  outline: none;
+}
+
+.multiplayer-chat > form input:focus {
+  border-color: #f87171;
+}
+
+.multiplayer-chat > form button {
+  border: 1px solid rgba(248, 113, 113, 0.62);
+  border-radius: 7px;
+  padding: 0 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: rgba(153, 27, 27, 0.9);
+  cursor: pointer;
+}
+
+.multiplayer-chat > form button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.phaser-fullscreen canvas {
+  display: block;
+}
+
+.start-screen {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #030407 url("/arts/ui/telaInicial.png") center / cover no-repeat;
+}
+
+.start-screen__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(2, 6, 23, 0.2), rgba(2, 6, 23, 0.58) 64%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.1), rgba(3, 7, 18, 0.58));
+}
+
+.start-menu,
+.avatar-select,
+.mode-menu,
+.audio-settings-menu,
+.deck-selection,
+.player-profile {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 720px);
+  color: #f8fafc;
+}
+
+.deck-selection {
+  display: grid;
+  gap: 16px;
+  width: min(94vw, 1080px);
+  max-height: calc(100dvh - 28px);
+  overflow-y: auto;
+  border: 1px solid rgba(185, 28, 28, 0.52);
+  border-radius: 8px;
+  padding: 20px;
+  background:
+    linear-gradient(180deg, rgba(35, 8, 13, 0.95), rgba(3, 7, 18, 0.96) 42%),
+    rgba(3, 7, 18, 0.96);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.62),
+    inset 0 0 0 1px rgba(254, 202, 202, 0.06);
+}
+
+.deck-selection__title {
+  text-align: center;
+}
+
+.deck-selection__title span {
+  font: 900 10px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #d6b36a;
+}
+
+.deck-selection__title h2 {
+  margin: 5px 0 6px;
+  font: 900 26px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #fff7ed;
+}
+
+.deck-selection__title p {
+  margin: 0;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.deck-selection__avatars {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.deck-avatar {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  border-radius: 8px;
+  padding: 7px;
+  text-align: left;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.72);
+  cursor: pointer;
+  transition:
+    transform 130ms ease,
+    border-color 130ms ease,
+    background 130ms ease;
+}
+
+.deck-avatar:hover,
+.deck-avatar:focus-visible {
+  transform: translateY(-2px);
+  outline: none;
+  border-color: rgba(248, 113, 113, 0.72);
+}
+
+.deck-avatar--selected {
+  border-color: #f87171;
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.82), rgba(30, 8, 14, 0.9));
+  box-shadow: 0 0 0 2px rgba(127, 29, 29, 0.32);
+}
+
+.deck-avatar img {
+  display: block;
+  width: 58px;
+  height: 66px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.deck-avatar span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.deck-avatar strong,
+.deck-avatar small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deck-avatar strong {
+  font: 900 11px/1.1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.deck-avatar small {
+  font-size: 9px;
+  color: #cbd5e1;
+}
+
+.deck-avatar__status,
+.selected-loadout__status,
+.multiplayer-selected-deck__status {
+  width: max-content;
+  font: 900 8px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+}
+
+.deck-avatar__status--unlocked,
+.selected-loadout__status--unlocked,
+.multiplayer-selected-deck__status--unlocked {
+  color: #86efac;
+}
+
+.deck-avatar__status--locked,
+.selected-loadout__status--locked,
+.multiplayer-selected-deck__status--locked {
+  color: #fca5a5;
+}
+
+.deck-selection__summary {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(214, 179, 106, 0.5);
+  border-radius: 8px;
+  padding: 12px;
+  background:
+    linear-gradient(100deg, rgba(69, 10, 10, 0.76), rgba(7, 10, 17, 0.82)),
+    rgba(15, 23, 42, 0.8);
+}
+
+.deck-selection__summary > img {
+  width: 92px;
+  height: 104px;
+  border: 1px solid rgba(254, 202, 202, 0.36);
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.deck-selection__summary > div {
+  display: grid;
+  gap: 5px;
+}
+
+.deck-selection__summary span {
+  font: 900 9px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #d6b36a;
+}
+
+.deck-selection__summary h3 {
+  margin: 0;
+  font: 900 21px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #fff7ed;
+}
+
+.deck-selection__summary strong {
+  font-size: 11px;
+  color: #fca5a5;
+}
+
+.deck-selection__summary p {
+  margin: 0;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.deck-selection__summary > b {
+  border: 1px solid rgba(214, 179, 106, 0.56);
+  border-radius: 7px;
+  padding: 9px 11px;
+  font-size: 12px;
+  color: #fde68a;
+  background: rgba(15, 8, 10, 0.72);
+}
+
+.deck-selection__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.deck-cards-toggle,
+.deck-play-button {
+  min-height: 44px;
+  border: 1px solid rgba(248, 113, 113, 0.68);
+  border-radius: 8px;
+  font: 900 12px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #fff7ed;
+  background: linear-gradient(180deg, rgba(153, 27, 27, 0.94), rgba(69, 10, 10, 0.96));
+  cursor: pointer;
+}
+
+.deck-play-button {
+  border-color: rgba(134, 239, 172, 0.62);
+  background: linear-gradient(180deg, rgba(22, 101, 52, 0.94), rgba(20, 83, 45, 0.96));
+}
+
+.deck-play-button--locked {
+  border-color: rgba(148, 163, 184, 0.38);
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.82);
+}
+
+.deck-selection__feedback,
+.avatar-select__error {
+  margin: 0;
+  border: 1px solid rgba(248, 113, 113, 0.58);
+  border-radius: 7px;
+  padding: 9px 12px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fee2e2;
+  background: rgba(69, 10, 10, 0.82);
+}
+
+.deck-card-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  padding-top: 16px;
+}
+
+.deck-card-gallery figure {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 7px;
+  padding: 5px;
+  background: rgba(2, 6, 23, 0.76);
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.deck-card-gallery figure:hover {
+  z-index: 2;
+  transform: translateY(-4px) scale(1.025);
+  border-color: rgba(248, 113, 113, 0.84);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.48);
+}
+
+.deck-card-gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 0.7;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.deck-card-gallery figcaption {
+  overflow: hidden;
+  padding: 7px 3px 3px;
+  font: 800 10px/1.15 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #e2e8f0;
+}
+
+.deck-selection__back {
+  width: min(100%, 280px);
+  margin: 0 auto;
+}
+
+.audio-settings-menu {
+  width: min(92vw, 410px);
+  gap: 20px;
+  border-color: rgba(153, 27, 27, 0.72);
+  padding: 26px;
+  background:
+    linear-gradient(180deg, rgba(41, 12, 17, 0.94), rgba(5, 9, 17, 0.96) 42%),
+    rgba(3, 7, 18, 0.94);
+  box-shadow:
+    0 26px 72px rgba(0, 0, 0, 0.58),
+    inset 0 0 0 1px rgba(254, 202, 202, 0.08);
+}
+
+.cropped-art {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.cropped-art > img {
+  position: absolute;
+  top: var(--art-image-top);
+  left: var(--art-image-left);
+  width: var(--art-image-width);
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.start-menu__actions,
+.avatar-select__actions {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 320px);
+  margin: 0 auto;
+}
+
+.selected-loadout,
+.multiplayer-selected-deck {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(214, 179, 106, 0.42);
+  border-radius: 8px;
+  padding: 9px;
+  background: linear-gradient(100deg, rgba(69, 10, 10, 0.58), rgba(15, 23, 42, 0.74));
+}
+
+.selected-loadout img,
+.multiplayer-selected-deck img {
+  width: 68px;
+  height: 74px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.selected-loadout div,
+.multiplayer-selected-deck div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.selected-loadout span,
+.multiplayer-selected-deck span {
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #d6b36a;
+}
+
+.selected-loadout strong,
+.multiplayer-selected-deck strong {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #fff7ed;
+}
+
+.selected-loadout small,
+.multiplayer-selected-deck small {
+  color: #cbd5e1;
+}
+
+.selected-loadout button {
+  border: 1px solid rgba(248, 113, 113, 0.62);
+  border-radius: 7px;
+  padding: 9px 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff7ed;
+  background: rgba(127, 29, 29, 0.72);
+  cursor: pointer;
+}
+
+.start-menu__actions {
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(3, 7, 18, 0.54), rgba(3, 7, 18, 0.22));
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(3px);
+}
+
+.game-title {
+  width: min(76vw, 500px);
+  margin: 0 auto 28px;
+}
+
+.mode-menu,
+.audio-settings-menu {
+  display: grid;
+  gap: 18px;
+  width: min(92vw, 430px);
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  border-radius: 8px;
+  padding: 22px;
+  background: rgba(3, 7, 18, 0.82);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(7px);
+}
+
+.mode-menu h2,
+.audio-settings-menu h2 {
+  margin: 0;
+  text-align: center;
+  font: 900 24px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+}
+
+.mode-menu > .menu-button,
+.audio-settings-menu > .menu-button {
+  width: min(100%, 320px);
+  margin: 0 auto;
+}
+
+.audio-settings-menu__header {
+  text-align: center;
+}
+
+.audio-settings-menu__header span {
+  display: block;
+  margin-bottom: 7px;
+  font: 900 10px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #d6b36a;
+}
+
+.audio-settings-menu__header h2 {
+  color: #fff7ed;
+  text-shadow: 0 2px 0 #450a0a;
+}
+
+.audio-settings-menu__header p {
+  margin: 9px 0 0;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.audio-control-card {
+  display: grid;
+  gap: 16px;
+  border: 1px solid rgba(185, 28, 28, 0.46);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(7, 10, 17, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.audio-control-card__value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.audio-control-card__value strong {
+  font: 900 14px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+}
+
+.audio-control-card__value span {
+  color: #fecaca;
+  font-weight: 900;
+}
+
+.audio-control-card input[type="range"] {
+  height: 8px;
+  border-radius: 4px;
+  width: 100%;
+  accent-color: #b91c1c;
+  background: #17080c;
+  cursor: pointer;
+}
+
+.audio-mute-button {
+  min-height: 40px;
+  border: 1px solid rgba(214, 179, 106, 0.56);
+  border-radius: 8px;
+  color: #fff7ed;
+  background: linear-gradient(180deg, rgba(127, 29, 29, 0.9), rgba(69, 10, 10, 0.94));
+  font: 900 12px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.audio-mute-button:hover,
+.audio-mute-button:focus-visible {
+  outline: none;
+  border-color: #fecaca;
+  background: rgba(153, 27, 27, 0.88);
+}
+
+.art-button {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.42));
+  transition:
+    transform 140ms ease,
+    filter 140ms ease;
+}
+
+.art-button:hover:not(:disabled),
+.art-button:focus-visible {
+  z-index: 3;
+  transform: translateY(-2px) scale(1.035);
+  outline: none;
+  filter:
+    brightness(1.12)
+    drop-shadow(0 10px 12px rgba(0, 0, 0, 0.5));
+}
+
+.art-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
+}
+
+.art-button:disabled {
+  opacity: 0.48;
+  filter: grayscale(0.5) brightness(0.7);
+  cursor: default;
+}
+
+.menu-button {
+  min-height: 50px;
+  border: 1px solid rgba(226, 232, 240, 0.38);
+  border-radius: 8px;
+  padding: 0 22px;
+  font: 900 15px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.72);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.menu-button:hover:not(:disabled),
+.menu-button:focus-visible {
+  transform: translateY(-2px);
+  outline: none;
+  border-color: rgba(248, 250, 252, 0.78);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.42);
+}
+
+.menu-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+  transition-duration: 60ms;
+}
+
+.menu-button--primary {
+  border-color: rgba(248, 113, 113, 0.72);
+  background:
+    linear-gradient(180deg, rgba(220, 38, 38, 0.96), rgba(127, 29, 29, 0.96) 48%, rgba(69, 10, 10, 0.96)),
+    rgba(127, 29, 29, 0.92);
+}
+
+.menu-button--secondary {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.78), rgba(15, 23, 42, 0.82));
+}
+
+.menu-button:disabled {
+  opacity: 0.62;
+  cursor: default;
+}
+
+.avatar-select {
+  display: grid;
+  gap: 20px;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  padding: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 8px;
+  background: rgba(3, 7, 18, 0.74);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(6px);
+}
+
+.avatar-select__header {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.player-name-field {
+  display: grid;
+  gap: 8px;
+}
+
+.player-name-field span {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+.player-name-field input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid rgba(148, 163, 184, 0.48);
+  border-radius: 8px;
+  padding: 0 14px;
+  font: 800 15px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.78);
+  outline: none;
+  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.24);
+}
+
+.player-name-field input:focus {
+  border-color: rgba(248, 113, 113, 0.9);
+  box-shadow:
+    inset 0 1px 10px rgba(0, 0, 0, 0.24),
+    0 0 0 2px rgba(127, 29, 29, 0.52);
+}
+
+.player-name-field input::placeholder {
+  color: rgba(203, 213, 225, 0.58);
+}
+
+.player-name-display {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  border: 1px solid rgba(214, 179, 106, 0.42);
+  border-radius: 8px;
+  padding: 0 14px;
+  font: 800 16px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #fff7ed;
+  background: rgba(42, 9, 15, 0.74);
+  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.24);
+}
+
+.player-identity-setup {
+  width: min(440px, calc(100vw - 32px));
+  overflow: visible;
+}
+
+.player-identity-setup p {
+  max-width: 360px;
+  margin: -4px auto 2px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.avatar-select__actions {
+  grid-template-columns: 1fr 1.25fr;
+  width: 100%;
+}
+
+.difficulty-select {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.difficulty-select legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+.difficulty-select__options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.difficulty-option {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  min-height: 58px;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  border-radius: 8px;
+  padding: 9px 8px;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.72);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.difficulty-option strong,
+.difficulty-option span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.difficulty-option strong {
+  font: 900 13px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+}
+
+.difficulty-option span {
+  font: 700 10px/1.2 "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #94a3b8;
+}
+
+.difficulty-option:hover,
+.difficulty-option:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+  border-color: rgba(248, 113, 113, 0.72);
+}
+
+.difficulty-option--selected {
+  border-color: rgba(248, 113, 113, 0.94);
+  color: #fff7ed;
+  background: rgba(127, 29, 29, 0.68);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 2px rgba(127, 29, 29, 0.3);
+}
+
+.difficulty-option--selected span {
+  color: #fecaca;
+}
+
+.difficulty-option--locked,
+.difficulty-option--locked:hover,
+.difficulty-option--locked:focus-visible {
+  transform: none;
+  border-color: rgba(71, 85, 105, 0.38);
+  color: #64748b;
+  background: rgba(15, 23, 42, 0.56);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.difficulty-option--locked span {
+  color: #64748b;
+}
+
+.player-profile {
+  display: grid;
+  gap: 14px;
+  width: min(96vw, 1080px);
+  max-height: calc(100dvh - 28px);
+  overflow-y: auto;
+  border: 1px solid rgba(185, 28, 28, 0.62);
+  border-radius: 8px;
+  padding: 20px;
+  background:
+    linear-gradient(180deg, rgba(42, 9, 15, 0.97), rgba(3, 7, 18, 0.98) 34%),
+    #030712;
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.68),
+    inset 0 0 0 1px rgba(254, 202, 202, 0.05);
+}
+
+.player-profile__hero {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.8fr) minmax(330px, 1.2fr);
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid rgba(214, 179, 106, 0.25);
+  padding: 0 4px 16px;
+}
+
+.player-profile__identity {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.player-profile__identity > img {
+  width: 86px;
+  height: 96px;
+  border: 1px solid rgba(248, 113, 113, 0.58);
+  border-radius: 7px;
+  object-fit: cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
+}
+
+.player-profile__identity > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.player-profile__identity span,
+.campaign-progress__title span {
+  font: 900 9px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #d6b36a;
+}
+
+.player-profile__identity h2 {
+  margin: 0;
+  font: 900 29px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: none;
+  color: #fff7ed;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.profile-name-row h2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-name-edit,
+.profile-name-editor button {
+  min-height: 24px;
+  border: 1px solid rgba(214, 179, 106, 0.48);
+  border-radius: 5px;
+  padding: 3px 8px;
+  color: #fef3c7;
+  background: rgba(69, 10, 10, 0.7);
+  font: 800 9px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.profile-name-edit:hover,
+.profile-name-editor button:hover {
+  border-color: rgba(248, 113, 113, 0.82);
+  background: rgba(127, 29, 29, 0.8);
+}
+
+.profile-name-editor {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) auto auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.profile-name-editor input {
+  min-width: 0;
+  height: 30px;
+  border: 1px solid rgba(248, 113, 113, 0.58);
+  border-radius: 5px;
+  padding: 0 8px;
+  color: #fff7ed;
+  background: rgba(15, 23, 42, 0.88);
+  font: 800 14px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  outline: none;
+}
+
+.profile-name-editor button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.player-profile__identity strong {
+  width: max-content;
+  border: 1px solid rgba(248, 113, 113, 0.44);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #fca5a5;
+  background: rgba(69, 10, 10, 0.58);
+}
+
+.rank-progress {
+  display: grid;
+  gap: 8px;
+}
+
+.rank-progress__labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #e2e8f0;
+}
+
+.rank-progress__labels span:last-child {
+  color: #d6b36a;
+}
+
+.rank-progress__track,
+.profile-campaign-summary__track {
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  border-radius: 5px;
+  background: rgba(2, 6, 23, 0.9);
+}
+
+.rank-progress__track > span,
+.profile-campaign-summary__track > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #7f1d1d, #ef4444 70%, #fca5a5);
+  box-shadow: 0 0 12px rgba(248, 113, 113, 0.48);
+}
+
+.rank-progress p {
+  margin: 0;
+  text-align: right;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.profile-overview {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.68fr) minmax(0, 1.32fr);
+  gap: 10px;
+}
+
+.profile-campaign-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  gap: 9px 12px;
+  border: 1px solid rgba(214, 179, 106, 0.35);
+  border-radius: 7px;
+  padding: 13px;
+  background: rgba(35, 12, 18, 0.72);
+}
+
+.profile-campaign-summary > div:first-child {
+  display: grid;
+  gap: 5px;
+}
+
+.profile-campaign-summary span,
+.profile-campaign-summary small {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.profile-campaign-summary strong {
+  font-size: 15px;
+  color: #fff7ed;
+}
+
+.profile-campaign-summary > b {
+  align-self: center;
+  font-size: 24px;
+  color: #fde68a;
+}
+
+.profile-campaign-summary__track,
+.profile-campaign-summary > small {
+  grid-column: 1 / -1;
+}
+
+.profile-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.profile-stat-grid article {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 7px;
+  padding: 10px;
+  background: rgba(15, 23, 42, 0.68);
+}
+
+.profile-stat-grid span {
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.profile-stat-grid strong {
+  overflow: hidden;
+  font-size: 14px;
+  color: #f8fafc;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campaign-progress {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  padding-top: 13px;
+}
+
+.campaign-progress__title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.campaign-progress__title h3 {
+  margin: 5px 0 0;
+  font: 900 17px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+}
+
+.campaign-progress__title p {
+  max-width: 520px;
+  margin: 0;
+  text-align: right;
+  font-size: 10px;
+  line-height: 1.35;
+  color: #94a3b8;
+}
+
+.campaign-progress__decks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.campaign-deck {
+  display: grid;
+  gap: 11px;
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-radius: 7px;
+  padding: 11px;
+  background: rgba(69, 10, 10, 0.35);
+}
+
+.campaign-deck--locked {
+  border-color: rgba(71, 85, 105, 0.3);
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.campaign-deck > header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.campaign-deck > header > img {
+  width: 42px;
+  height: 46px;
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.campaign-deck > header > div {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+}
+
+.campaign-deck header strong {
+  overflow: hidden;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campaign-deck header small {
+  font-size: 8px;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.campaign-deck__status {
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  padding: 5px 6px;
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.campaign-deck__status--unlocked {
+  color: #86efac;
+}
+
+.campaign-deck__status--locked {
+  color: #fca5a5;
+}
+
+.campaign-deck__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.campaign-step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  border: 1px solid rgba(100, 116, 139, 0.24);
+  border-radius: 6px;
+  padding: 7px;
+  color: #cbd5e1;
+  background: rgba(2, 6, 23, 0.5);
+}
+
+.campaign-step > b {
+  display: grid;
+  flex: 0 0 22px;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+.campaign-step > span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.campaign-step strong {
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.campaign-step small {
+  overflow: hidden;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campaign-step--completed {
+  border-color: rgba(74, 222, 128, 0.28);
+  color: #86efac;
+  background: rgba(5, 46, 22, 0.34);
+}
+
+.campaign-step--available {
+  border-color: rgba(253, 230, 138, 0.3);
+  color: #fde68a;
+  background: rgba(69, 26, 3, 0.3);
+}
+
+.campaign-step--locked {
+  border-color: rgba(71, 85, 105, 0.24);
+  color: #64748b;
+}
+
+.player-profile__back {
+  width: min(100%, 280px);
+  margin: 0 auto;
+}
+
+.multiplayer-lobby {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 16px;
+  width: min(94vw, 1040px);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 8px;
+  padding: 20px;
+  color: #f8fafc;
+  background: rgba(3, 7, 18, 0.88);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(8px);
+}
+
+.multiplayer-lobby__header,
+.room-browser__title,
+.room-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.multiplayer-lobby__header span,
+.create-room label span {
+  display: block;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fca5a5;
+}
+
+.multiplayer-lobby h2,
+.multiplayer-lobby h3,
+.multiplayer-lobby p {
+  margin: 0;
+}
+
+.multiplayer-lobby h2 {
+  font-size: 26px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.multiplayer-lobby h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.lobby-back,
+.room-browser__title button,
+.room-item button {
+  border: 1px solid rgba(148, 163, 184, 0.48);
+  border-radius: 7px;
+  padding: 9px 14px;
+  font: 900 11px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.92);
+  cursor: pointer;
+}
+
+.multiplayer-profile {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  align-items: end;
+  gap: 18px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  padding: 14px 0;
+}
+
+.multiplayer-selected-deck {
+  grid-template-columns: 58px minmax(0, 1fr);
+}
+
+.multiplayer-selected-deck img {
+  width: 58px;
+  height: 58px;
+}
+
+.multiplayer-columns {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.75fr) minmax(340px, 1.25fr);
+  gap: 18px;
+}
+
+.create-room,
+.room-browser {
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.56);
+}
+
+.create-room {
+  display: grid;
+  align-content: start;
+  gap: 13px;
+}
+
+.create-room label {
+  display: grid;
+  gap: 6px;
+}
+
+.create-room input,
+.room-item input {
+  min-width: 0;
+  height: 40px;
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  border-radius: 7px;
+  padding: 0 11px;
+  font: 700 13px/1 "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #f8fafc;
+  background: rgba(2, 6, 23, 0.82);
+  outline: none;
+}
+
+.room-browser {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.room-browser__title button {
+  padding: 7px 10px;
+  color: #cbd5e1;
+}
+
+.room-browser__empty {
+  padding: 34px 12px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.room-list {
+  display: grid;
+  gap: 8px;
+  max-height: 230px;
+  overflow: auto;
+}
+
+.room-item {
+  border-left: 3px solid #7f1d1d;
+  padding: 10px 10px 10px 12px;
+  background: rgba(2, 6, 23, 0.66);
+}
+
+.room-item > div {
+  display: grid;
+  min-width: 130px;
+}
+
+.room-item > div span {
+  overflow: hidden;
+  font-size: 10px;
+  color: #94a3b8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.room-item input {
+  width: 110px;
+  height: 34px;
+}
+
+.room-item button {
+  border-color: rgba(248, 113, 113, 0.58);
+  background: #7f1d1d;
+}
+
+.waiting-room {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.waiting-room__pulse {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(248, 113, 113, 0.24);
+  border-top-color: #f87171;
+  border-radius: 50%;
+  animation: waiting-room-spin 900ms linear infinite;
+}
+
+.waiting-room strong {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.waiting-room p {
+  color: #cbd5e1;
+}
+
+.waiting-room .menu-button {
+  width: min(100%, 260px);
+}
+
+.multiplayer-error {
+  border: 1px solid rgba(248, 113, 113, 0.72);
+  border-radius: 7px;
+  padding: 10px 13px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fee2e2;
+  background: rgba(69, 10, 10, 0.86);
+}
+
+@keyframes waiting-room-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 620px) {
+  .start-screen {
+    place-items: start center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px 0;
+  }
+
+  .deck-selection__avatars {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .deck-selection__actions,
+  .profile-stat-grid,
+  .campaign-progress__decks {
+    grid-template-columns: 1fr;
+  }
+
+  .player-profile {
+    width: calc(100vw - 20px);
+    max-height: none;
+    padding: 14px;
+  }
+
+  .player-profile__hero,
+  .profile-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .rank-progress p {
+    text-align: left;
+  }
+
+  .campaign-progress__title {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .campaign-progress__title p {
+    text-align: left;
+  }
+
+  .campaign-deck__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-card-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deck-selection__summary {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .deck-selection__summary > img {
+    width: 72px;
+    height: 84px;
+  }
+
+  .deck-selection__summary > b {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .avatar-select__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .difficulty-select__options {
+    grid-template-columns: 1fr;
+  }
+
+  .multiplayer-lobby {
+    width: calc(100vw - 20px);
+    max-height: none;
+    padding: 14px;
+  }
+
+  .multiplayer-profile,
+  .multiplayer-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .room-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .room-item input {
+    width: 100%;
+  }
+
+  .multiplayer-chat {
+    top: 50%;
+    left: 50%;
+    width: calc(100vw - 20px);
+    height: calc(100dvh - 40px);
+  }
+}
