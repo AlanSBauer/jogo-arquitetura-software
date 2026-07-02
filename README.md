@@ -18,18 +18,6 @@ npm run dev:web
 npm run server
 ```
 
-## Verificar
-
-```bash
-npm run lint
-npm run build
-npm run test:architecture
-npm run test:rules
-npm run test:ai
-npm run test:progress
-npm run test:multiplayer
-```
-
 Para executar toda a verificacao de entrega (lint, testes e build):
 
 ```bash
@@ -38,6 +26,5 @@ npm run check
 
 ## Documentação
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md): camadas, princípios hexagonais, EventBus e fluxos.
-- [PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md): visão completa do projeto.
+- [DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md): visão completa do projeto.
 - [REGRAS_TCG.md](./REGRAS_TCG.md): regras de gameplay.
