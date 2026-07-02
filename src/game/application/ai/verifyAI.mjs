@@ -92,7 +92,7 @@ import { buildCardInstance } from "../../domain/entities/cards.js";
     player("p1", { board: [creature("danger", 6, 4)] }),
     player("p2", { board: [creature("trader", 4, 7)] }),
   );
-  const mediumAI = new AIController({ difficulty: "medium", rng: () => 0 });
+  const mediumAI = new AIController({ difficulty: "medium", rng: () => 0.5 });
   const tradeDecision = mediumAI.getBestMove(goodTradeState, 1);
   assert.equal(tradeDecision.action.type, AI_ACTION_TYPES.ATTACK_CREATURE);
 
@@ -147,8 +147,21 @@ import { buildCardInstance } from "../../domain/entities/cards.js";
   assert.equal(AI_DIFFICULTY_PROFILES.medium.opponentLookaheadDepth, 0);
   assert.ok(AI_DIFFICULTY_PROFILES.hard.opponentLookaheadDepth > 0);
   assert.ok(AI_DIFFICULTY_PROFILES.easy.randomMoveChance > 0);
-  assert.equal(AI_DIFFICULTY_PROFILES.medium.randomMoveChance, 0);
+  assert.ok(AI_DIFFICULTY_PROFILES.medium.randomMoveChance > 0);
+  assert.ok(
+    AI_DIFFICULTY_PROFILES.medium.randomMoveChance <
+      AI_DIFFICULTY_PROFILES.easy.randomMoveChance,
+  );
   assert.equal(AI_DIFFICULTY_PROFILES.hard.randomMoveChance, 0);
+  assert.ok(
+    AI_DIFFICULTY_PROFILES.easy.mistakeChance >
+      AI_DIFFICULTY_PROFILES.medium.mistakeChance,
+  );
+  assert.ok(
+    AI_DIFFICULTY_PROFILES.medium.mistakeChance >
+      AI_DIFFICULTY_PROFILES.hard.mistakeChance,
+  );
+  assert.ok(AI_DIFFICULTY_PROFILES.hard.mistakeChance > 0);
   assert.ok(
     AI_DIFFICULTY_PROFILES.easy.attackWeight <
       AI_DIFFICULTY_PROFILES.medium.attackWeight,

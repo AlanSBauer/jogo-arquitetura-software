@@ -94,12 +94,15 @@ export class DecisionMaker {
           bestScore - candidate.score <= Math.max(18, Math.abs(bestScore) * 0.2),
       )
       .slice(0, 4);
-    const choicePool =
-      context.difficulty === "hard"
+    const makesMistake =
+      mistakeChance > 0 &&
+      safeAlternatives.length > 1 &&
+      this.rng() < mistakeChance;
+    const choicePool = makesMistake
+      ? safeAlternatives
+      : context.difficulty === "hard"
         ? [scoredSequences[0]]
-        : this.rng() < mistakeChance && safeAlternatives.length > 1
-          ? safeAlternatives
-          : closeChoices;
+        : closeChoices;
     const selected =
       choicePool[Math.floor(this.rng() * choicePool.length)] ??
       scoredSequences[0];
